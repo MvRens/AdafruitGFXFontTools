@@ -1,0 +1,6 @@
+.vs
+*.user
+bin
+obj
+Fonts
+release
