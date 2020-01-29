@@ -94,6 +94,7 @@ namespace AdafruitGFXFontTrim
             char? firstChar = null;
             char? lastChar = null;
             var matchedGlyphsCount = 0;
+            var matchedGlyphsLastCount = 0;
 
 
             foreach (var glyph in inputFont.Glyphs)
@@ -118,7 +119,9 @@ namespace AdafruitGFXFontTrim
                         firstChar = currentChar;
 
                     lastChar = currentChar;
-                    matchedGlyphsCount = glyphs.Count;
+
+                    matchedGlyphsCount++;
+                    matchedGlyphsLastCount = glyphs.Count;
                 }
                 else if (firstChar.HasValue)
                 {
@@ -143,8 +146,8 @@ namespace AdafruitGFXFontTrim
 
 
             // Remove the empty glyphs at the end
-            if (glyphs.Count > matchedGlyphsCount)
-                glyphs.RemoveRange(matchedGlyphsCount, glyphs.Count - matchedGlyphsCount);
+            if (glyphs.Count > matchedGlyphsLastCount)
+                glyphs.RemoveRange(matchedGlyphsLastCount, glyphs.Count - matchedGlyphsLastCount);
 
 
             var outputFont = new AdafruitGFXFont
@@ -158,8 +161,12 @@ namespace AdafruitGFXFontTrim
                 Glyphs = glyphs
             };
 
-            var output = AdafruitGFXFontWriter.WriteString(outputFont);
 
+            Console.WriteLine($"         Kept {matchedGlyphsCount} of {inputFont.Glyphs.Count} glyphs, ~ {inputFont.SizeEstimate} > {outputFont.SizeEstimate} bytes");
+            Console.WriteLine();
+
+
+            var output = AdafruitGFXFontWriter.WriteString(outputFont);
 
             using (var file = new StreamWriter(outputFilename))
             {

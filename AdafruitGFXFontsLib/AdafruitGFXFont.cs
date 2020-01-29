@@ -12,5 +12,9 @@ namespace AdafruitGFXFontsLib
 
         public byte[] Bitmap { get; set; }
         public List<GFXglyph> Glyphs { get; set; }
+
+
+        // Based on the calculation in fontconvert.c
+        public int SizeEstimate => Bitmap.Length + (Glyphs.Count * 7) + 7;
     }
 }

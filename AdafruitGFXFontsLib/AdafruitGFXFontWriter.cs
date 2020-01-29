@@ -103,12 +103,7 @@ namespace AdafruitGFXFontsLib
                     .Append(font.YAdvance).AppendLine(" };")
                 .AppendLine();
 
-            // Based on the calculation in fontconvert.c
-            var sizeEstimate = font.Bitmap.Length +
-                               (font.Glyphs.Count * 7) +
-                               7;
-
-            output.AppendLine($"// Approx. {sizeEstimate} bytes");
+            output.AppendLine($"// Approx. {font.SizeEstimate} bytes");
         }
     }
 }
